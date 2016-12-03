@@ -17,7 +17,7 @@ export class MapRender extends PureComponent {
         />
         <Marker position={this.state.position}>
           <Popup>
-            <span>A pretty CSS3 popup.<br />Easily customizable.</span>
+            <span>Otaniemi.<br />Aalto Univesity Campus.</span>
           </Popup>
         </Marker>
       </Map>
