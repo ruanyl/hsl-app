@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import MediaQuery from 'react-responsive'
 import AutoComplete from 'material-ui/AutoComplete'
 import RaisedButton from 'material-ui/RaisedButton'
-import FontIcon from 'material-ui/FontIcon'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import BusIcon from 'material-ui/svg-icons/maps/directions-bus'
 import LocationIcon from 'material-ui/svg-icons/maps/add-location'
@@ -14,8 +13,7 @@ import HelpIcon from 'material-ui/svg-icons/action/help'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
-import Toggle from 'material-ui/Toggle';
-import SelectField from 'material-ui/SelectField'
+import Toggle from 'material-ui/Toggle'
 import { grey400 } from 'material-ui/styles/colors'
 
 export class SearchField extends PureComponent {
@@ -26,27 +24,27 @@ export class SearchField extends PureComponent {
       bus: {
         hintText: 'Bus NO.',
         icon: <BusIcon color={grey400} />,
-        dataSource: ['102', '102T', '110', '103', '103T', '158', '156', '154', '550']
+        dataSource: ['102', '102T', '110', '103', '103T', '158', '156', '154', '550'],
       },
       location: {
         hintText: 'Find a Location',
         icon: <LocationIcon color={grey400} />,
-        dataSource: ['Otaniemi', 'iso omena', 'Kamppi', 'Vallila']
+        dataSource: ['Otaniemi', 'iso omena', 'Kamppi', 'Vallila'],
       },
       route: {
         icon: <DirectionIcon color={grey400} />,
-        dataSource: ['Otaniemi', 'iso omena', 'Kamppi', 'Vallila']
-      }
+        dataSource: ['Otaniemi', 'iso omena', 'Kamppi', 'Vallila'],
+      },
     }
 
     this.styles = {
       wrapper: {
         position: 'relative',
         display: 'flex',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
       },
       searchButton: {
-        marginLeft: 10
+        marginLeft: 10,
       },
       selectMeans: {
         marginLeft: -37
