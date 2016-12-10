@@ -47,38 +47,38 @@ export class SearchField extends PureComponent {
         marginLeft: 10,
       },
       selectMeans: {
-        marginLeft: -37
+        marginLeft: -37,
       },
       searchs: {
         display: 'flex',
         flexShrink: 0,
         alignItems: 'center',
         minWidth: 368,
-        flexWrap: 'nowrap'
+        flexWrap: 'nowrap',
       },
       toggles: {
         display: 'flex',
-        transform: 'translate(8px, 14px)'
+        transform: 'translate(8px, 14px)',
       },
       toggle: {
-        marginLeft: 20
+        marginLeft: 20,
       },
       settings: {
         alignSelf: 'flex-end',
-        marginLeft: 'auto'
-      }
+        marginLeft: 'auto',
+      },
     }
 
     this.state = {
       dataSource: this.config.bus.dataSource,
-      mode: 'bus'
+      mode: 'bus',
     }
   }
 
   onMenuItemClick = mode => {
     this.setState({
       mode,
-      dataSource: this.config[mode].dataSource
+      dataSource: this.config[mode].dataSource,
     })
   }
 
@@ -87,7 +87,7 @@ export class SearchField extends PureComponent {
   }
 
   getSearchField() {
-    if(this.state.mode == 'route') {
+    if (this.state.mode == 'route') {
       return (
         <div>
           <AutoComplete
@@ -123,14 +123,14 @@ export class SearchField extends PureComponent {
   render() {
     return (
       <div style={this.styles.wrapper}>
-        <MediaQuery style={{display: 'flex', width: '100%', flexWrap: 'wrap'}} minWidth={870}>
+        <MediaQuery style={{ display: 'flex', width: '100%', flexWrap: 'wrap' }} minWidth={870}>
           <div style={this.styles.searchs}>
             {this.getSearchField()}
             <div style={this.styles.selectMeans}>
               <IconMenu
                 iconButtonElement={<IconButton>{this.config[this.state.mode].icon}</IconButton>}
-                anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
               >
                 <MenuItem onClick={() => this.onMenuItemClick('bus')} primaryText="Search Bus" leftIcon={<BusIcon />} />
                 <MenuItem onClick={() => this.onMenuItemClick('location')} primaryText="Find Location" leftIcon={<LocationIcon />} />
@@ -140,9 +140,10 @@ export class SearchField extends PureComponent {
             <div>
               <RaisedButton
                 onTouchTap={this.doSearch}
-                primary={true}
+                primary
                 icon={<SearchIcon />}
-                style={this.styles.searchButton} />
+                style={this.styles.searchButton}
+              />
             </div>
           </div>
           <div style={this.styles.toggles}>
@@ -162,8 +163,8 @@ export class SearchField extends PureComponent {
           <div style={this.styles.settings}>
             <IconMenu
               iconButtonElement={<IconButton><BuildIcon color={grey400} /></IconButton>}
-              anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+              targetOrigin={{ horizontal: 'left', vertical: 'top' }}
             >
               <MenuItem primaryText="Explore" leftIcon={<ExploreIcon />} />
               <MenuItem primaryText="Help" leftIcon={<HelpIcon />} />
@@ -171,14 +172,14 @@ export class SearchField extends PureComponent {
             </IconMenu>
           </div>
         </MediaQuery>
-        <MediaQuery style={{display: 'flex', width: '100%', flexWrap: 'wrap'}} maxWidth={870} minWidth={480}>
+        <MediaQuery style={{ display: 'flex', width: '100%', flexWrap: 'wrap' }} maxWidth={870} minWidth={480}>
           <div style={this.styles.searchs}>
             {this.getSearchField()}
             <div style={this.styles.selectMeans}>
               <IconMenu
                 iconButtonElement={<IconButton>{this.config[this.state.mode].icon}</IconButton>}
-                anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
               >
                 <MenuItem onClick={() => this.onMenuItemClick('bus')} primaryText="Search Bus" leftIcon={<BusIcon />} />
                 <MenuItem onClick={() => this.onMenuItemClick('location')} primaryText="Find Location" leftIcon={<LocationIcon />} />
@@ -188,16 +189,17 @@ export class SearchField extends PureComponent {
             <div>
               <RaisedButton
                 onTouchTap={this.doSearch}
-                primary={true}
+                primary
                 icon={<SearchIcon />}
-                style={this.styles.searchButton} />
+                style={this.styles.searchButton}
+              />
             </div>
           </div>
           <div style={this.styles.settings}>
             <IconMenu
               iconButtonElement={<IconButton><BuildIcon color={grey400} /></IconButton>}
-              anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+              targetOrigin={{ horizontal: 'left', vertical: 'top' }}
             >
               <MenuItem primaryText="Explore" leftIcon={<ExploreIcon />} />
               <MenuItem primaryText="Help" leftIcon={<HelpIcon />} />
@@ -210,8 +212,8 @@ export class SearchField extends PureComponent {
           <div style={this.styles.selectMeans}>
             <IconMenu
               iconButtonElement={<IconButton>{this.config[this.state.mode].icon}</IconButton>}
-              anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+              targetOrigin={{ horizontal: 'left', vertical: 'top' }}
             >
               <MenuItem onClick={() => this.onMenuItemClick('bus')} primaryText="Search Bus" leftIcon={<BusIcon />} />
               <MenuItem onClick={() => this.onMenuItemClick('location')} primaryText="Find Location" leftIcon={<LocationIcon />} />
@@ -221,9 +223,10 @@ export class SearchField extends PureComponent {
           <div>
             <RaisedButton
               onTouchTap={this.doSearch}
-              primary={true}
+              primary
               icon={<SearchIcon />}
-              style={this.styles.searchButton} />
+              style={this.styles.searchButton}
+            />
           </div>
         </MediaQuery>
       </div>
