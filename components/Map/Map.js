@@ -10,7 +10,7 @@ export class MapRender extends PureComponent {
   }
   render() {
     return (
-      <Map center={this.state.position} zoom={13}>
+      <Map center={this.state.position} zoom={13} zoomControl={false}>
         <TileLayer
           url="http://api.digitransit.fi/map/v1/hsl-map/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

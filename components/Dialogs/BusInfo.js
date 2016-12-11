@@ -6,7 +6,10 @@ import ContentInbox from 'material-ui/svg-icons/content/inbox'
 import ContentDrafts from 'material-ui/svg-icons/content/drafts'
 import ContentSend from 'material-ui/svg-icons/content/send'
 import BusIcon from 'material-ui/svg-icons/maps/directions-bus'
+import ExpandLessIcon from 'material-ui/svg-icons/navigation/expand-less'
+import ExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
 import RaisedButton from 'material-ui/RaisedButton'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 
 export class BusInfo extends Component {
   constructor(props) {
@@ -22,24 +25,41 @@ export class BusInfo extends Component {
       'Hanasaari',
       'Länsiväylä',
       'Lapinrinne',
-      'Kamppi, tulo'
+      'Kamppi, tulo',
     ]
     this.styles = {
       wrapper: {
-        position: 'absolute',
-        left: 45,
-        top: 120,
-        width: 250,
-        height: 350,
-        zIndex: 999,
+        position: 'fixed',
+        bottom: 0,
+        width: '100%',
+        zIndex: 998,
         background: '#fff',
-        boxShadow: '0px 0px 5px #999'
+        boxShadow: '0px 0px 5px #999',
+        paddingBottom: 10,
+      },
+      expandList: {
+        maxHeight: 400,
+        overflow: 'scroll',
       },
       list: {
-        height: 300,
-        overflow: 'scroll'
-      }
+        maxHeight: 200,
+        overflow: 'scroll',
+      },
+      expandButton: {
+        position: 'absolute',
+        right: 20,
+        top: -30,
+        zIndex: 9999,
+      },
     }
+
+    this.state = {
+      expand: false,
+    }
+  }
+
+  expandList = () => {
+    this.setState({ expand: !this.state.expand })
   }
 
   stopList() {
@@ -49,7 +69,10 @@ export class BusInfo extends Component {
   render() {
     return (
       <div style={this.styles.wrapper}>
-        <div style={this.styles.list}>
+        <FloatingActionButton style={this.styles.expandButton} onClick={() => this.expandList()}>
+          {this.state.expand ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+        </FloatingActionButton>
+        <div style={this.state.expand ? this.styles.expandList : this.styles.list}>
           <List>
             <Subheader>Bus Information</Subheader>
             <ListItem
@@ -68,7 +91,6 @@ export class BusInfo extends Component {
             />
           </List>
         </div>
-        <RaisedButton onTouchTap={this.props.onClose} style={{position: 'absolute', bottom: 1}} label="Close" fullWidth={true} />
       </div>
     )
   }

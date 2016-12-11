@@ -8,6 +8,9 @@ import ContentSend from 'material-ui/svg-icons/content/send'
 import BusIcon from 'material-ui/svg-icons/maps/directions-bus'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton';
+import ExpandLessIcon from 'material-ui/svg-icons/navigation/expand-less'
+import ExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 import {
   Step,
   Stepper,
@@ -22,38 +25,52 @@ export class Routes extends Component {
     ]
     this.styles = {
       wrapper: {
-        position: 'absolute',
-        left: 45,
-        top: 120,
-        width: 300,
-        height: 450,
-        zIndex: 999,
+        position: 'fixed',
+        bottom: 0,
+        width: '100%',
+        zIndex: 998,
         background: '#fff',
-        boxShadow: '0px 0px 5px #999'
+        boxShadow: '0px 0px 5px #999',
+        paddingBottom: 10,
+      },
+      expandList: {
+        maxHeight: 400,
+        overflow: 'scroll',
       },
       list: {
-        height: 400,
-        overflow: 'scroll'
-      }
+        maxHeight: 200,
+        overflow: 'scroll',
+      },
+      expandButton: {
+        position: 'absolute',
+        right: 20,
+        top: -30,
+        zIndex: 9998,
+      },
     }
     this.state = {
-      stepIndex: 0
+      stepIndex: 0,
+      expand: false,
     }
   }
 
   handleNext = () => {
-    const {stepIndex} = this.state;
+    const {stepIndex} = this.state
     if (stepIndex < 2) {
       this.setState({stepIndex: stepIndex + 1});
     }
-  };
+  }
 
   handlePrev = () => {
-    const {stepIndex} = this.state;
+    const {stepIndex} = this.state
     if (stepIndex > 0) {
       this.setState({stepIndex: stepIndex - 1});
     }
-  };
+  }
+
+  expandList = () => {
+    this.setState({ expand: !this.state.expand })
+  }
 
   renderStepActions(step) {
     return (
@@ -82,7 +99,10 @@ export class Routes extends Component {
     const {stepIndex} = this.state;
     return (
       <div style={this.styles.wrapper}>
-        <div style={this.styles.list}>
+        <FloatingActionButton style={this.styles.expandButton} onClick={() => this.expandList()}>
+          {this.state.expand ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+        </FloatingActionButton>
+        <div style={this.state.expand ? this.styles.expandList : this.styles.list}>
           <Stepper
             activeStep={stepIndex}
             linear={false}
@@ -121,7 +141,6 @@ export class Routes extends Component {
             </Step>
           </Stepper>
         </div>
-        <RaisedButton onTouchTap={this.props.onClose} style={{position: 'absolute', bottom: 1}} label="Close" fullWidth={true} />
       </div>
     )
   }

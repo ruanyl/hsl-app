@@ -8,9 +8,12 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import BuildIcon from 'material-ui/svg-icons/action/build'
+import DirectionsIcon from 'material-ui/svg-icons/maps/directions'
+import SearchIcon from 'material-ui/svg-icons/action/search'
 import AccountIcon from 'material-ui/svg-icons/action/account-circle'
 import ExploreIcon from 'material-ui/svg-icons/action/explore'
 import HelpIcon from 'material-ui/svg-icons/action/help'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { grey400 } from 'material-ui/styles/colors'
 
 import { MapContainer } from './MapRenderContainer'
@@ -23,7 +26,8 @@ export class Root extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchMode: null
+      searchMode: null,
+      buttonAction: 'bus',
     }
     this.styles = {
       toggles: {
@@ -39,12 +43,12 @@ export class Root extends Component {
       },
       settings: {
         position: 'absolute',
-        top: 100,
-        right: 30,
-        width: 48,
-        height: 48,
+        top: 70,
+        right: 20,
+        width: 40,
+        height: 40,
         backgroundColor: 'rgba(255, 255, 255, 1)',
-        boxShadow: '0px 0px 5px #999',
+        boxShadow: '0px 0px 5px #666',
         zIndex: 998
       }
     }
@@ -68,39 +72,24 @@ export class Root extends Component {
     this.setState({searchMode: mode})
   }
 
+  updateActionButton = mode => {
+    console.log(mode)
+    this.setState({buttonAction: mode})
+  }
+
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
         <div style={{ position: 'relative', width: '100%', height: window.innerHeight }}>
-          <div style={{ padding: 20, zIndex: 999, boxShadow: '0px 1px 8px #999', position: 'relative' }}>
-            <SearchFieldContainer onSearch={this.updateSearchMode} />
+          <div style={{ zIndex: 999, position: 'fixed', padding: 5, display: 'flex' }}>
+            <SearchFieldContainer updateActionButton={this.updateActionButton} onSearch={this.updateSearchMode} />
           </div>
           {this.getDialog()}
           <MapContainer />
-          <MediaQuery style={this.styles.toggles} maxWidth={870}>
-            <div style={this.styles.toggle}>
-              <Toggle label="Bus" labelPosition="right" />
-            </div>
-            <div style={this.styles.toggle}>
-              <Toggle label="Metro" labelPosition="right" />
-            </div>
-            <div style={this.styles.toggle}>
-              <Toggle label="Tram" labelPosition="right" />
-            </div>
-            <div style={this.styles.toggle}>
-              <Toggle label="Ferry" labelPosition="right" />
-            </div>
-          </MediaQuery>
           <MediaQuery style={this.styles.settings} maxWidth={480}>
-            <IconMenu
-              iconButtonElement={<IconButton><BuildIcon color={grey400} /></IconButton>}
-              anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-              targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            >
-              <MenuItem primaryText="Explore" leftIcon={<ExploreIcon />} />
-              <MenuItem primaryText="Help" leftIcon={<HelpIcon />} />
-              <MenuItem primaryText="Account" leftIcon={<AccountIcon />} />
-            </IconMenu>
+            <FloatingActionButton onClick={() => this.updateSearchMode(this.state.buttonAction)} mini={true}>
+              {this.state.buttonAction === 'route' ? <DirectionsIcon color={grey400} /> : <SearchIcon color={grey400} />}
+            </FloatingActionButton>
           </MediaQuery>
         </div>
       </MuiThemeProvider>

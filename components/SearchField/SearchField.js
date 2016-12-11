@@ -1,19 +1,18 @@
 import React, { PureComponent } from 'react'
 import MediaQuery from 'react-responsive'
 import AutoComplete from 'material-ui/AutoComplete'
-import RaisedButton from 'material-ui/RaisedButton'
-import SearchIcon from 'material-ui/svg-icons/action/search'
 import BusIcon from 'material-ui/svg-icons/maps/directions-bus'
 import LocationIcon from 'material-ui/svg-icons/maps/add-location'
 import DirectionIcon from 'material-ui/svg-icons/maps/directions'
-import BuildIcon from 'material-ui/svg-icons/action/build'
-import AccountIcon from 'material-ui/svg-icons/action/account-circle'
-import ExploreIcon from 'material-ui/svg-icons/action/explore'
-import HelpIcon from 'material-ui/svg-icons/action/help'
+import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import Toggle from 'material-ui/Toggle'
+import Drawer from 'material-ui/Drawer'
+import { List, ListItem } from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
+import Divider from 'material-ui/Divider'
 import { grey400 } from 'material-ui/styles/colors'
 
 export class SearchField extends PureComponent {
@@ -42,6 +41,7 @@ export class SearchField extends PureComponent {
         position: 'relative',
         display: 'flex',
         flexWrap: 'wrap',
+        zIndex: 9999,
       },
       searchButton: {
         marginLeft: 10,
@@ -55,6 +55,9 @@ export class SearchField extends PureComponent {
         alignItems: 'center',
         minWidth: 368,
         flexWrap: 'nowrap',
+        backgroundColor: '#fff',
+        borderRadius: 3,
+        boxShadow: '0 1px 2px #999',
       },
       toggles: {
         display: 'flex',
@@ -70,6 +73,7 @@ export class SearchField extends PureComponent {
     }
 
     this.state = {
+      open: false,
       dataSource: this.config.bus.dataSource,
       mode: 'bus',
     }
@@ -80,6 +84,7 @@ export class SearchField extends PureComponent {
       mode,
       dataSource: this.config[mode].dataSource,
     })
+    this.props.updateActionButton(mode)
   }
 
   doSearch = () => {
@@ -91,16 +96,18 @@ export class SearchField extends PureComponent {
       return (
         <div>
           <AutoComplete
+            underlineShow={false}
             maxSearchResults={5}
-            style={{ width: 110 }}
-            textFieldStyle={{ width: 110 }}
+            style={{ width: 140 }}
+            textFieldStyle={{ width: 140 }}
             hintText="From"
             dataSource={this.state.dataSource}
           />
           <AutoComplete
+            underlineShow={false}
             maxSearchResults={5}
-            style={{ width: 110, marginLeft: 25 }}
-            textFieldStyle={{ width: 110 }}
+            style={{ width: 140, marginLeft: 25 }}
+            textFieldStyle={{ width: 140 }}
             hintText="To"
             dataSource={this.state.dataSource}
           />
@@ -108,106 +115,34 @@ export class SearchField extends PureComponent {
       )
     }
     return (
-      <div>
-        <AutoComplete
-          maxSearchResults={5}
-          style={{ width: 256 }}
-          textFieldStyle={{ width: 256 }}
-          hintText={this.config[this.state.mode].hintText}
-          dataSource={this.state.dataSource}
-        />
-      </div>
+      <AutoComplete
+        menuStyle={{ width: '100%' }}
+        maxSearchResults={5}
+        style={{ width: '100%' }}
+        underlineShow={false}
+        textFieldStyle={{ width: '100%' }}
+        hintText={this.config[this.state.mode].hintText}
+        dataSource={this.state.dataSource}
+      />
     )
   }
+
+  handleToggle = () => {
+    console.log('aaaa')
+    this.setState({ open: !this.state.open })
+  }
+
+  handleClose = () => this.setState({ open: false })
 
   render() {
     return (
       <div style={this.styles.wrapper}>
-        <MediaQuery style={{ display: 'flex', width: '100%', flexWrap: 'wrap' }} minWidth={870}>
-          <div style={this.styles.searchs}>
-            {this.getSearchField()}
-            <div style={this.styles.selectMeans}>
-              <IconMenu
-                iconButtonElement={<IconButton>{this.config[this.state.mode].icon}</IconButton>}
-                anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-              >
-                <MenuItem onClick={() => this.onMenuItemClick('bus')} primaryText="Search Bus" leftIcon={<BusIcon />} />
-                <MenuItem onClick={() => this.onMenuItemClick('location')} primaryText="Find Location" leftIcon={<LocationIcon />} />
-                <MenuItem onClick={() => this.onMenuItemClick('route')} primaryText="Search Route" leftIcon={<DirectionIcon />} />
-              </IconMenu>
-            </div>
-            <div>
-              <RaisedButton
-                onTouchTap={this.doSearch}
-                primary
-                icon={<SearchIcon />}
-                style={this.styles.searchButton}
-              />
-            </div>
-          </div>
-          <div style={this.styles.toggles}>
-            <div style={this.styles.toggle}>
-              <Toggle label="Bus" labelPosition="right" />
-            </div>
-            <div style={this.styles.toggle}>
-              <Toggle label="Metro" labelPosition="right" />
-            </div>
-            <div style={this.styles.toggle}>
-              <Toggle label="Tram" labelPosition="right" />
-            </div>
-            <div style={this.styles.toggle}>
-              <Toggle label="Ferry" labelPosition="right" />
-            </div>
-          </div>
-          <div style={this.styles.settings}>
-            <IconMenu
-              iconButtonElement={<IconButton><BuildIcon color={grey400} /></IconButton>}
-              anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-              targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-            >
-              <MenuItem primaryText="Explore" leftIcon={<ExploreIcon />} />
-              <MenuItem primaryText="Help" leftIcon={<HelpIcon />} />
-              <MenuItem primaryText="Account" leftIcon={<AccountIcon />} />
-            </IconMenu>
-          </div>
-        </MediaQuery>
-        <MediaQuery style={{ display: 'flex', width: '100%', flexWrap: 'wrap' }} maxWidth={870} minWidth={480}>
-          <div style={this.styles.searchs}>
-            {this.getSearchField()}
-            <div style={this.styles.selectMeans}>
-              <IconMenu
-                iconButtonElement={<IconButton>{this.config[this.state.mode].icon}</IconButton>}
-                anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-              >
-                <MenuItem onClick={() => this.onMenuItemClick('bus')} primaryText="Search Bus" leftIcon={<BusIcon />} />
-                <MenuItem onClick={() => this.onMenuItemClick('location')} primaryText="Find Location" leftIcon={<LocationIcon />} />
-                <MenuItem onClick={() => this.onMenuItemClick('route')} primaryText="Search Route" leftIcon={<DirectionIcon />} />
-              </IconMenu>
-            </div>
-            <div>
-              <RaisedButton
-                onTouchTap={this.doSearch}
-                primary
-                icon={<SearchIcon />}
-                style={this.styles.searchButton}
-              />
-            </div>
-          </div>
-          <div style={this.styles.settings}>
-            <IconMenu
-              iconButtonElement={<IconButton><BuildIcon color={grey400} /></IconButton>}
-              anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-              targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-            >
-              <MenuItem primaryText="Explore" leftIcon={<ExploreIcon />} />
-              <MenuItem primaryText="Help" leftIcon={<HelpIcon />} />
-              <MenuItem primaryText="Account" leftIcon={<AccountIcon />} />
-            </IconMenu>
-          </div>
-        </MediaQuery>
         <MediaQuery style={this.styles.searchs} maxWidth={480}>
+          <div>
+            <IconButton onTouchTap={this.handleToggle} tooltip="Show Menu">
+              <MenuIcon color="#999" />
+            </IconButton>
+          </div>
           {this.getSearchField()}
           <div style={this.styles.selectMeans}>
             <IconMenu
@@ -220,15 +155,36 @@ export class SearchField extends PureComponent {
               <MenuItem onClick={() => this.onMenuItemClick('route')} primaryText="Search Route" leftIcon={<DirectionIcon />} />
             </IconMenu>
           </div>
-          <div>
-            <RaisedButton
-              onTouchTap={this.doSearch}
-              primary
-              icon={<SearchIcon />}
-              style={this.styles.searchButton}
-            />
-          </div>
         </MediaQuery>
+        <Drawer
+          style={{ zIndex: 9999 }}
+          docked={false}
+          width={300}
+          open={this.state.open}
+          onRequestChange={open => this.setState({ open })}
+        >
+          <List>
+            <ListItem
+              primaryText="Application Preferences"
+              secondaryText="Make changes here"
+            />
+          </List>
+          <Divider />
+          <List>
+            <Subheader>Modes of transport</Subheader>
+            <ListItem primaryText="Bus" rightToggle={<Toggle />} />
+            <ListItem primaryText="Metro" rightToggle={<Toggle />} />
+            <ListItem primaryText="Tram" rightToggle={<Toggle />} />
+            <ListItem primaryText="Ferry" rightToggle={<Toggle />} />
+          </List>
+          <Divider />
+          <List>
+            <Subheader>Settings</Subheader>
+            <ListItem primaryText="Account" />
+            <ListItem primaryText="Help" />
+            <ListItem primaryText="Profile" />
+          </List>
+        </Drawer>
       </div>
     )
   }
